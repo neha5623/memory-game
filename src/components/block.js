@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 function Diamond() {
     return (
     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
@@ -25,13 +26,58 @@ const styles={
     borderBottomColor: "yellow",
     }
 }
-export default function Block(){
+function FrontFace(){
+    return(
+    <div style={{width:'100px',height:'100px',backgroundColor:'#e13b96',display:'grid',gridTemplateColumns:'repeat(3 ,1fr)'}}>
+            {Array.from({length:9},(_,i)=> <Diamond key={i} />)}
+    </div>
+    )
+}
+function BackFace({img}){
+    return(
+    <div>
+        <img
+        src={img}
+        alt="card"
+        style={{
+          width: '100px',
+          height: '100px',
+          objectFit: 'contain',
+          borderRadius: '10px',
+          
+        }}
+      />
+    </div>
+    )
+}
+export default function Block({ index, img, onClick }){
+    const [flipped, setFlipped] = useState(false);
+    
+  
     return (
-        <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-        <div style={{backgroundColor:'#e13b96',width:'100px',height:'100px',borderRadius:'10px',border:'5px solid rgb(212, 37, 142)',display:'grid',gridTemplateColumns:'repeat(3 ,1fr)',boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',cursor:"pointer"}}>
-        
-        {Array.from({length:9},(_,i)=> <Diamond key={i} />)}
-        
+        <div  onClick={() => setFlipped(!flipped)} style={{perspective: '1000px',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <div className="innerdiv"  style={{position: 'relative',
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.6s',
+          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',width:'100px',height:'100px',borderRadius:'10px',border:'5px solid rgb(212, 37, 142)',boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',cursor:"pointer"}}>
+           <div style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          backfaceVisibility: 'hidden'
+        }}>
+          <FrontFace />
+        </div>
+
+        <div style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          transform: 'rotateY(180deg)',
+          backfaceVisibility: 'hidden'
+        }}>
+          <BackFace img={img} />
+        </div>
         </div>
         </div>
     )
