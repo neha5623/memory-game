@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState,useEffect} from 'react';
 import Block from './block.js'
 import blueberry from './assets/blueberry.jpg';
 import bluecup from './assets/bluecup.jpg';
@@ -63,11 +63,28 @@ function shuffleArray(array){
   }
   return array;
 }
-const selectedImage=ImageSel(getIndices);
-const pairedImage=[...selectedImage,...selectedImage];
-const shuffled=shuffleArray([...pairedImage]);
-console.log(shuffled);
+
+
 export default function box(){
+    const [cards, setCards] = useState([]);
+    const [matched,setMatched]=useState([]);
+    const [flipped,setFlipped]=useState([]);
+    const [disabled,setDisabled]=useState(false);
+    useEffect(() => {
+      const selectedImage=ImageSel(getIndices);
+      const pairedImage=[...selectedImage,...selectedImage].map((img,index)=>({
+        id:index,
+        img,
+      }));
+      setCards(shuffleArray(pairedImage));
+    },[]);
+    useEffect(() => {
+      if(flipped.length === 2){
+        setDisabled(true);
+        if(flipped[0].img===flipped[1].img){}
+
+      }
+    },[]);
     return (
       <div>
         <div style={{backgroundColor:'#ea4da3ac',width:'500px',height:'500px',borderRadius:'10px',display:'grid',gridTemplateColumns:'repeat(4 ,1fr)',gap:' 20px',padding: '20px'}}>

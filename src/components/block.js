@@ -56,14 +56,12 @@ export default function Block({ index, img, onClick }){
   
     return (
         <div  onClick={() => setFlipped(!flipped)} style={{perspective: '1000px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-        <div className="innerdiv"  style={{position: 'relative',
-          transformStyle: 'preserve-3d',
-          transition: 'transform 0.6s',
+        <div className="innerdiv"  style={{position: 'relative',transformStyle: 'preserve-3d',transition: 'transform 0.6s',
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',width:'100px',height:'100px',borderRadius:'10px',border:'5px solid rgb(212, 37, 142)',boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',cursor:"pointer"}}>
            <div style={{
           position: 'absolute',
-          width: '100%',
-          height: '100%',
+          width: '100px',
+          height: '100px',
           backfaceVisibility: 'hidden'
         }}>
           <FrontFace />
@@ -71,10 +69,11 @@ export default function Block({ index, img, onClick }){
 
         <div style={{
           position: 'absolute',
-          width: '100%',
-          height: '100%',
+          width: '100px',
+          height: '100px',
           transform: 'rotateY(180deg)',
-          backfaceVisibility: 'hidden'
+          backfaceVisibility: 'hidden',
+          backgroundColor:' rgb(212, 37, 142)'
         }}>
           <BackFace img={img} />
         </div>
